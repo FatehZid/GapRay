@@ -8,11 +8,11 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "GapRay (Alt+Shift+M)"
+    "default_title": "GapRay (Cmd/Ctrl+Shift+X)"
   },
   "commands": {
     "_execute_action": {
-      "suggested_key": { "default": "Alt+Shift+M" },
+      "suggested_key": { "default": "Ctrl+Shift+X", "mac": "Command+Shift+X" },
       "description": "Toggle GapRay"
     }
   },
