@@ -14,7 +14,7 @@ chrome.commands.onCommand.addListener((command, tab) => {
   if (command === "toggle-gapray" && tab) toggle(tab.id);
 });
 
-// "Turn on GapRay" in the toolbar menu.
+// "Activate GapRay" in the toolbar menu.
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type !== "toggle") return;
   toggle(msg.tabId).then(() => sendResponse());

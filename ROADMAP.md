@@ -22,7 +22,7 @@
 
 ## V0.x · Polish (driven by what breaks)
 
-- **Toolbar menu:** clicking the icon opens a menu: Turn on GapRay, Settings, version.
+- **Toolbar menu:** clicking the icon opens a menu: Activate GapRay with its shortcut, Settings, version.
 - **Settings page:** shows the current shortcut with a Change button that opens Chrome's shortcut settings.
 - **Shortcut:** `Cmd/Ctrl+Shift+X` still turns GapRay on directly, without the menu.
 

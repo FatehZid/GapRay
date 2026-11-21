@@ -30,8 +30,8 @@
 [data-icon="keyboard"] {
   --icon: url(icons/keyboard.svg);
 }
-[data-icon="power"] {
-  --icon: url(icons/power.svg);
+[data-icon="measure"] {
+  --icon: url(icons/measure.svg);
 }
 [data-icon="settings"] {
   --icon: url(icons/settings.svg);

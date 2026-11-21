@@ -1,3 +1,5 @@
+import { getShortcut } from "./commands.js";
+
 const { name, version } = chrome.runtime.getManifest();
 document.title = `${name} settings`;
 document.getElementById("app-name").textContent = name;
@@ -12,9 +14,6 @@ document.getElementById("change-shortcut").addEventListener("click", () => {
 // The user may change the shortcut in another tab, then come back.
 addEventListener("focus", showShortcut);
 
-// The shortcut Chrome actually assigned, already formatted for the OS.
 async function showShortcut() {
-  const commands = await chrome.commands.getAll();
-  const shortcut = commands.find((c) => c.name === "toggle-gapray")?.shortcut;
-  document.getElementById("shortcut").textContent = shortcut || "Not set";
+  document.getElementById("shortcut").textContent = (await getShortcut()) || "Not set";
 }

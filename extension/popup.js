@@ -1,6 +1,9 @@
+import { getShortcut } from "./commands.js";
+
 const { name, version } = chrome.runtime.getManifest();
 document.getElementById("app-name").textContent = name;
 document.getElementById("app-version").textContent = `v${version}`;
+document.getElementById("shortcut").textContent = await getShortcut();
 
 const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 const toggle = document.getElementById("toggle");
@@ -11,7 +14,7 @@ try {
     target: { tabId: tab.id },
     func: () => !!document.querySelector("gapray-root"),
   });
-  if (on) toggle.textContent = "Turn off GapRay";
+  if (on) document.getElementById("toggle-label").textContent = "Deactivate GapRay";
   toggle.disabled = false;
 } catch {
   // Page can't be inspected.

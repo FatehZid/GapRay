@@ -64,3 +64,14 @@ footer {
 .version {
   font-weight: 400;
 }
+
+.grow {
+  flex: 1;
+}
+
+/* Same look as the version in the footer. */
+.shortcut {
+  font: inherit;
+  font-weight: 400;
+  opacity: 0.5;
+}
