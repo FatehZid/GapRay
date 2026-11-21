@@ -1,0 +1,135 @@
+/* Settings layout. Controls follow Chromium's own settings UI so the page
+ * feels native; spacing and corners are our own. Shared colors and icons
+ * come from base.css. */
+:root {
+  --page: light-dark(#ffffff, #202124);
+  --card: light-dark(#ffffff, #292a2d);
+  --card-shadow: light-dark(rgb(0 0 0 / 8%), transparent);
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font:
+    14px/20px system-ui,
+    sans-serif;
+}
+
+main {
+  width: calc(100% - 32px);
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 48px 0 64px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 4px 8px;
+}
+
+.app-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+#app-version {
+  margin: 2px 0 0;
+  font-size: 13px;
+}
+
+h2 {
+  margin: 40px 4px 12px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.card {
+  overflow: hidden;
+  border: 1px solid var(--separator);
+  border-radius: 16px;
+  background: var(--card);
+  box-shadow: 0 1px 3px var(--card-shadow);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 60px;
+  margin: 0;
+  padding: 12px 24px;
+}
+
+.grow {
+  flex: 1;
+  min-width: 0;
+}
+
+.secondary {
+  color: var(--secondary);
+}
+
+.credit {
+  margin-top: 48px;
+  color: var(--secondary);
+  font-size: 12px;
+  text-align: center;
+}
+
+.credit a {
+  color: inherit;
+  text-underline-offset: 2px;
+}
+
+.row > .icon {
+  color: var(--secondary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+kbd {
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--hover-subtle);
+  color: var(--secondary);
+  font: inherit;
+  font-weight: 500;
+}
+
+/* cr-button: outlined pill. */
+.button {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  min-width: 5.14em;
+  height: 36px;
+  padding: 8px 16px;
+  border: 1px solid var(--tonal-outline);
+  border-radius: 100px;
+  background: transparent;
+  color: var(--primary);
+  font: inherit;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--hover);
+}

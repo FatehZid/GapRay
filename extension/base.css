@@ -1,0 +1,38 @@
+/* Shared by the menu and Settings. Colors are Chrome's defaults (from
+ * Chromium's cr_elements) and follow light or dark mode; extensions can't
+ * read the user's Chrome theme. */
+:root {
+  color-scheme: light dark;
+  --text: light-dark(#1f1f1f, #e3e3e3);
+  --secondary: light-dark(#444746, #c4c7c5);
+  --primary: light-dark(#0b57d0, #a8c7fa);
+  --tonal-outline: light-dark(#a8c7fa, #047db7);
+  --separator: light-dark(rgb(0 0 0 / 6%), rgb(255 255 255 / 10%));
+  --hover: light-dark(rgb(31 31 31 / 8%), rgb(227 227 227 / 8%));
+  --hover-subtle: light-dark(rgb(31 31 31 / 6%), rgb(253 252 251 / 10%));
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Icons are masks, so they always take the text color. Menu items draw
+ * theirs before the label. */
+.icon,
+.item::before {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  mask: var(--icon) center / contain no-repeat;
+}
+
+[data-icon="keyboard"] {
+  --icon: url(icons/keyboard.svg);
+}
+[data-icon="measure"] {
+  --icon: url(icons/measure.svg);
+}
+[data-icon="settings"] {
+  --icon: url(icons/settings.svg);
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings</title>
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body>
+    <main>
+      <header class="page-header">
+        <img class="app-icon" src="icons/icon-128.png" alt="" />
+        <div>
+          <h1 id="app-name"></h1>
+          <p id="app-version" class="secondary"></p>
+        </div>
+      </header>
+
+      <section>
+        <h2>Keyboard shortcut</h2>
+        <div class="card">
+          <div class="row">
+            <span class="icon" data-icon="keyboard"></span>
+            <span class="grow">Turn GapRay on or off</span>
+            <kbd id="shortcut"></kbd>
+            <button type="button" id="change-shortcut" class="button">
+              Change
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="credit">
+        Made by
+        <a href="https://x.com/fatehzid" target="_blank" rel="noopener"
+          >Fateh Zid</a
+        >
+        with love 💚
+      </footer>
+    </main>
+    <script type="module" src="settings.js"></script>
+  </body>
+</html>
