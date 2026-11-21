@@ -10,7 +10,15 @@
   const MAX_COLOR_SCAN = 2000;
   const SCAN_WIDTH = 320;
   const SKIP = new Set([
-    "HTML", "HEAD", "BODY", "SCRIPT", "STYLE", "LINK", "META", "NOSCRIPT", "BR",
+    "HTML",
+    "HEAD",
+    "BODY",
+    "SCRIPT",
+    "STYLE",
+    "LINK",
+    "META",
+    "NOSCRIPT",
+    "BR",
   ]);
   const CORNERS = [
     { key: "borderTopLeftRadius", name: "tl" },
@@ -45,7 +53,8 @@
   function start() {
     // Shadow DOM keeps page CSS and overlay CSS apart.
     host = document.createElement("gapray-root");
-    host.style.cssText = "all: initial; position: fixed; inset: 0; z-index: 2147483647;";
+    host.style.cssText =
+      "all: initial; position: fixed; inset: 0; z-index: 2147483647;";
     const root = host.attachShadow({ mode: "open" });
 
     const styles = ["overlay.css", "motion.css"].map((file) => {
@@ -129,7 +138,10 @@
   function drawMeasure(a, b) {
     hoverLayer.append(place(el("div", "m-box"), b));
     const inside = (o, i) =>
-      i.left >= o.left && i.right <= o.right && i.top >= o.top && i.bottom <= o.bottom;
+      i.left >= o.left &&
+      i.right <= o.right &&
+      i.top >= o.top &&
+      i.bottom <= o.bottom;
 
     // One inside the other: four lines to the outer box's inner edges.
     if (inside(b, a) || inside(a, b)) {
@@ -187,7 +199,7 @@
         top: Math.min(y1, y2),
         width: flat ? len : 1,
         height: flat ? 1 : len,
-      })
+      }),
     );
     if (dashed) return;
     const tag = el("div", "tag m-tag", fmt(len));
@@ -199,7 +211,10 @@
     if (!hovered || !hovered.isConnected) return;
     const anchor = selected.length === 1 ? selected[0] : null;
     if (alt && anchor && hovered !== anchor) {
-      drawMeasure(anchor.getBoundingClientRect(), hovered.getBoundingClientRect());
+      drawMeasure(
+        anchor.getBoundingClientRect(),
+        hovered.getBoundingClientRect(),
+      );
       return;
     }
     if (selected.includes(hovered)) return;
@@ -222,7 +237,8 @@
 
   function onDrag(e) {
     if (!down.dragging) {
-      if (Math.hypot(e.clientX - down.x, e.clientY - down.y) < DRAG_THRESHOLD) return;
+      if (Math.hypot(e.clientX - down.x, e.clientY - down.y) < DRAG_THRESHOLD)
+        return;
       down.dragging = true;
       down.candidates = snapshot();
       hovered = null;
@@ -258,7 +274,12 @@
   function topLevelInside(candidates, r) {
     const inside = new Set();
     for (const { node, b } of candidates) {
-      if (b.left >= r.left && b.top >= r.top && b.right <= r.right && b.bottom <= r.bottom) {
+      if (
+        b.left >= r.left &&
+        b.top >= r.top &&
+        b.right <= r.right &&
+        b.bottom <= r.bottom
+      ) {
         inside.add(node);
       }
     }
@@ -287,7 +308,8 @@
     staggerIndex = 0;
     nextShown = new Set();
     selected = selected.filter((node) => node.isConnected);
-    if (selected[0]) results.classList.toggle("light", isLightBehind(selected[0]));
+    if (selected[0])
+      results.classList.toggle("light", isLightBehind(selected[0]));
 
     const lensRect = selRect || (selected.length ? unionRect(selected) : null);
     if (lensRect) drawLens(lensRect, sweep);
@@ -299,7 +321,9 @@
       for (const node of selected) {
         const b = node.getBoundingClientRect();
         const cs = getComputedStyle(node);
-        results.append(enter(place(el("div", "outline"), b), keyOf("outline", b)));
+        results.append(
+          enter(place(el("div", "outline"), b), keyOf("outline", b)),
+        );
         drawPadding(b, cs);
         drawRadius(b, cs);
         results.append(sizeTag(b));
@@ -347,8 +371,18 @@
     const height = b.height - bt - bb;
 
     hatch("pad", "Padding top", pt, { left, top, width, height: pt });
-    hatch("pad", "Padding bottom", pb, { left, top: top + height - pb, width, height: pb });
-    hatch("pad", "Padding left", pl, { left, top: top + pt, width: pl, height: height - pt - pb });
+    hatch("pad", "Padding bottom", pb, {
+      left,
+      top: top + height - pb,
+      width,
+      height: pb,
+    });
+    hatch("pad", "Padding left", pl, {
+      left,
+      top: top + pt,
+      width: pl,
+      height: height - pt - pb,
+    });
     hatch("pad", "Padding right", pr, {
       left: left + width - pr,
       top: top + pt,
@@ -359,7 +393,9 @@
 
   function drawChildGaps(node, cs) {
     const box = contentBox(node.getBoundingClientRect(), cs);
-    const kids = [...node.children].filter(inFlow).map((kid) => kid.getBoundingClientRect());
+    const kids = [...node.children]
+      .filter(inFlow)
+      .map((kid) => kid.getBoundingClientRect());
     gapsBetween(kids, box);
   }
 
@@ -408,9 +444,15 @@
     if (size < 1 || rect.width <= 0 || rect.height <= 0) return;
     const value = `${fmt(size)}px`;
     const label = el("div", `tag ${kind}-tag`, fmt(size));
-    const area = enter(place(el("div", `hatch ${kind}`), rect), keyOf(name, rect));
+    const area = enter(
+      place(el("div", `hatch ${kind}`), rect),
+      keyOf(name, rect),
+    );
     area.append(label);
-    area.addEventListener("mouseenter", () => (label.textContent = `${name} · ${value}`));
+    area.addEventListener(
+      "mouseenter",
+      () => (label.textContent = `${name} · ${value}`),
+    );
     area.addEventListener("mouseleave", () => (label.textContent = fmt(size)));
     area.addEventListener("click", () => copy(value));
     results.append(area);
@@ -439,7 +481,10 @@
       if (uniform && name !== "br") return;
       const tag = el("div", `tag radius-tag hit tag-${name}`, `r ${fmt(r)}`);
       tag.addEventListener("click", () => copy(`${fmt(r)}px`));
-      const at = { left: isLeft ? b.left : b.right, top: isTop ? b.top : b.bottom };
+      const at = {
+        left: isLeft ? b.left : b.right,
+        top: isTop ? b.top : b.bottom,
+      };
       results.append(enter(place(tag, at), keyOf(`radius-${name}`, b)));
     });
   }
@@ -448,7 +493,9 @@
   function radiusOf(value, b) {
     const first = value.split(" ")[0];
     const max = Math.min(b.width, b.height) / 2;
-    const r = first.endsWith("%") ? (px(first) / 100) * Math.min(b.width, b.height) : px(first);
+    const r = first.endsWith("%")
+      ? (px(first) / 100) * Math.min(b.width, b.height)
+      : px(first);
     return Math.min(r, max);
   }
 
@@ -459,24 +506,28 @@
     const pad = sides(cs, "padding");
     const radius = radiusOf(cs.borderTopLeftRadius, b);
 
-    drawCard(null, [
-      {
-        label: "Size",
-        value: `${fmt(b.width)} × ${fmt(b.height)}`,
-        copy: `${fmt(b.width)}px × ${fmt(b.height)}px`,
-      },
-      { label: "Font", value: font },
-      { label: "Font size", value: cs.fontSize },
-      { label: "Weight", value: cs.fontWeight },
-      { label: "Line height", value: cs.lineHeight },
-      { label: "Color", value: toHex(cs.color), swatch: cs.color },
-      {
-        label: "Padding",
-        value: pad.map(fmt).join(" "),
-        copy: pad.map((v) => `${fmt(v)}px`).join(" "),
-      },
-      { label: "Radius", value: fmt(radius), copy: `${fmt(radius)}px` },
-    ], b);
+    drawCard(
+      null,
+      [
+        {
+          label: "Size",
+          value: `${fmt(b.width)} × ${fmt(b.height)}`,
+          copy: `${fmt(b.width)}px × ${fmt(b.height)}px`,
+        },
+        { label: "Font", value: font },
+        { label: "Font size", value: cs.fontSize },
+        { label: "Weight", value: cs.fontWeight },
+        { label: "Line height", value: cs.lineHeight },
+        { label: "Color", value: toHex(cs.color), swatch: cs.color },
+        {
+          label: "Padding",
+          value: pad.map(fmt).join(" "),
+          copy: pad.map((v) => `${fmt(v)}px`).join(" "),
+        },
+        { label: "Radius", value: fmt(radius), copy: `${fmt(radius)}px` },
+      ],
+      b,
+    );
   }
 
   function drawMultiCard() {
@@ -497,7 +548,12 @@
     const rows = list
       .slice(0, MAX_COLORS)
       .map(([hex, css]) => ({ label: "Color", value: hex, swatch: css }));
-    drawCard(`${selected.length} selected`, rows, unionRect(selected), list.length - MAX_COLORS);
+    drawCard(
+      `${selected.length} selected`,
+      rows,
+      unionRect(selected),
+      list.length - MAX_COLORS,
+    );
   }
 
   function drawCard(title, rows, anchor, more = 0) {
@@ -537,7 +593,7 @@
       .then(() => navigator.clipboard.writeText(text))
       .then(
         () => showToast(`Copied ${text}`),
-        () => showToast("Couldn't copy on this page")
+        () => showToast("Couldn't copy on this page"),
       );
   }
 
@@ -545,7 +601,10 @@
     toast.textContent = text;
     toast.classList.add("show");
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toast && toast.classList.remove("show"), 1500);
+    toastTimer = setTimeout(
+      () => toast && toast.classList.remove("show"),
+      1500,
+    );
   }
 
   // ---------- helpers ----------
@@ -603,7 +662,14 @@
     const top = Math.min(a.y, e.clientY);
     const right = Math.max(a.x, e.clientX);
     const bottom = Math.max(a.y, e.clientY);
-    return { left, top, right, bottom, width: right - left, height: bottom - top };
+    return {
+      left,
+      top,
+      right,
+      bottom,
+      width: right - left,
+      height: bottom - top,
+    };
   }
 
   function unionRect(nodes) {
@@ -630,13 +696,20 @@
   function inFlow(node) {
     if (SKIP.has(node.tagName)) return false;
     const s = getComputedStyle(node);
-    if (s.display === "none" || s.position === "absolute" || s.position === "fixed") return false;
+    if (
+      s.display === "none" ||
+      s.position === "absolute" ||
+      s.position === "fixed"
+    )
+      return false;
     const b = node.getBoundingClientRect();
     return b.width > 0 && b.height > 0;
   }
 
   function sides(cs, prefix, suffix = "") {
-    return ["Top", "Right", "Bottom", "Left"].map((side) => px(cs[`${prefix}${side}${suffix}`]));
+    return ["Top", "Right", "Bottom", "Left"].map((side) =>
+      px(cs[`${prefix}${side}${suffix}`]),
+    );
   }
 
   function px(value) {

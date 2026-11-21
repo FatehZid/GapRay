@@ -2,7 +2,10 @@
 // content.js toggles itself if it is already on the page.
 async function toggle(tabId) {
   try {
-    await chrome.scripting.executeScript({ target: { tabId }, files: ["content.js"] });
+    await chrome.scripting.executeScript({
+      target: { tabId },
+      files: ["content.js"],
+    });
   } catch (err) {
     // Chrome blocks extensions on chrome:// pages and the Web Store.
     console.warn("GapRay can't run on this page:", err.message);

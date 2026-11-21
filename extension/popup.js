@@ -14,7 +14,8 @@ try {
     target: { tabId: tab.id },
     func: () => !!document.querySelector("gapray-root"),
   });
-  if (on) document.getElementById("toggle-label").textContent = "Deactivate GapRay";
+  if (on)
+    document.getElementById("toggle-label").textContent = "Deactivate GapRay";
   toggle.disabled = false;
 } catch {
   // Page can't be inspected.

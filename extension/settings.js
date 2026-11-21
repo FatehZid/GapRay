@@ -15,5 +15,6 @@ document.getElementById("change-shortcut").addEventListener("click", () => {
 addEventListener("focus", showShortcut);
 
 async function showShortcut() {
-  document.getElementById("shortcut").textContent = (await getShortcut()) || "Not set";
+  document.getElementById("shortcut").textContent =
+    (await getShortcut()) || "Not set";
 }

@@ -38,14 +38,14 @@ GapRay is not on the Chrome Web Store yet. To install it from this repo:
 
 ## Use
 
-| Action | How |
-|---|---|
-| Turn on / off | `Cmd+Shift+X` (Mac) or `Ctrl+Shift+X` (Windows), or the toolbar menu |
-| Inspect one element | Click it |
-| X-ray an area | Drag over it |
-| Measure distance | Select an element, hold `Alt` / `Option`, hover another |
-| Copy a value | Click it |
-| Exit | `Esc` |
+| Action              | How                                                                  |
+| ------------------- | -------------------------------------------------------------------- |
+| Turn on / off       | `Cmd+Shift+X` (Mac) or `Ctrl+Shift+X` (Windows), or the toolbar menu |
+| Inspect one element | Click it                                                             |
+| X-ray an area       | Drag over it                                                         |
+| Measure distance    | Select an element, hold `Alt` / `Option`, hover another              |
+| Copy a value        | Click it                                                             |
+| Exit                | `Esc`                                                                |
 
 Change the shortcut anytime in GapRay **Settings**.
 

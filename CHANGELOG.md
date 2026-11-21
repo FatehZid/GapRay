@@ -25,5 +25,5 @@ First public release.
 - Shortcut: Cmd/Ctrl+Shift+X. Esc exits.
 - Permissions: activeTab and scripting only. No network calls.
 
-[unreleased]: https://github.com/Ulba-Studio/GapRay/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/Ulba-Studio/GapRay/releases/tag/v0.1.0
+[unreleased]: https://github.com/FatehZid/GapRay/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/FatehZid/GapRay/releases/tag/v0.1.0

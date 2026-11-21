@@ -1,1 +1,18 @@
+# OS
 .DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*~
+*.swp
+
+# Tools
+node_modules/
+
+# Chrome packaging
+_metadata/
+*.zip
+*.crx
+*.pem
