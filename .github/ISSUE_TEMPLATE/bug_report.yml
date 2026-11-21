@@ -1,0 +1,35 @@
+name: Bug report
+description: Something doesn't work, or a value doesn't match DevTools.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include the page URL if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+  - type: input
+    id: chrome
+    attributes:
+      label: Chrome version
+      description: Find it at chrome://version
+  - type: input
+    id: gapray
+    attributes:
+      label: GapRay version
+      description: Shown at the bottom of the toolbar menu.
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
