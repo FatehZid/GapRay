@@ -29,10 +29,10 @@
 ## V1 · Figma habits (current)
 
 - ✅ Hold `Alt` and hover to see the distance between two elements.
-- Export the x-rayed area as a PNG.
 
 ## Later (only on real demand)
 
+- Export the x-rayed area as a PNG.
 - Annotations.
 - Firefox and Safari.
 - Paid cloud, only where hosting costs money: shared reports, team audits, AI layout checks.
