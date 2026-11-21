@@ -77,4 +77,4 @@ Please open an issue before a big change, so we can agree on it first.
 
 ## License
 
-[GPL-3.0](LICENSE), Copyright (c) 2026 Ulba Studio. Made by [Fateh Zid](https://x.com/fatehzid).
+[GPL-3.0](LICENSE). Made by [Fateh Zid](https://x.com/fatehzid) with love 💚
