@@ -1,23 +1,23 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <link rel="stylesheet" href="ui.css">
-</head>
-<body>
-  <div class="menu">
-    <button class="item" id="toggle" disabled>
-      <svg viewBox="0 0 24 24"><path d="M12 2v10"/><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/></svg>
-      <span id="toggle-label">Turn on GapRay</span>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="base.css" />
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <button type="button" class="item" id="toggle" data-icon="power" disabled>
+      Turn on GapRay
     </button>
-    <hr>
-    <button class="item" id="settings">
-      <svg viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+    <hr />
+    <button type="button" class="item" id="settings" data-icon="settings">
       Settings
     </button>
-    <hr>
-    <div class="foot"><span>GapRay</span><span id="version"></span></div>
-  </div>
-  <script src="popup.js"></script>
-</body>
+    <hr />
+    <footer>
+      <span id="app-name"></span>
+      <span id="app-version" class="version"></span>
+    </footer>
+    <script type="module" src="popup.js"></script>
+  </body>
 </html>

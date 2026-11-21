@@ -1,0 +1,66 @@
+/* Menu layout. Colors and icons come from base.css. */
+:root {
+  --background: light-dark(#ffffff, #1f1f1f);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 283px;
+  margin: 0;
+  padding: 8px;
+  background: var(--background);
+  color: var(--text);
+  font:
+    500 13px/normal system-ui,
+    sans-serif;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.item::before {
+  content: "";
+}
+
+.item:enabled:hover,
+.item:focus-visible {
+  outline: none;
+  background: var(--hover);
+}
+
+.item:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+hr {
+  width: 100%;
+  margin: 8px 0;
+  border: 0;
+  border-top: 1px solid var(--separator);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  opacity: 0.5;
+}
+
+.version {
+  font-weight: 400;
+}
