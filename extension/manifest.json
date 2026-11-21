@@ -4,11 +4,21 @@
   "version": "0.1.0",
   "description": "X-ray any webpage like Figma redlines. Spacing, sizes, padding, gaps, radius and type. 100% local.",
   "permissions": ["activeTab", "scripting"],
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
   "background": {
     "service_worker": "background.js"
   },
   "action": {
     "default_title": "GapRay",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png"
+    },
     "default_popup": "popup.html"
   },
   "options_ui": {
