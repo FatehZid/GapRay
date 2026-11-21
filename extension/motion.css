@@ -1,32 +1,42 @@
-/* GapRay motion. Plays only when .intro is set (click or release).
-   Animates transform, scale, opacity and clip-path only. */
+/* GapRay motion. Each item animates once, when it first appears (.enter).
+   Animates transform, scale and opacity only. */
 
-.intro .lens {
-  animation: fade-in 320ms ease-out both;
+:host {
+  /* Damped spring (2% overshoot), built with CSS linear(). */
+  --spring: linear(0, 0.047, 0.156, 0.294, 0.436, 0.569, 0.685, 0.781, 0.857, 0.915, 0.956, 0.984, 1.003, 1.013, 1.018, 1.02, 1.019, 1.017, 1.014, 1.011, 1.009, 1.006, 1.004, 1.003, 1);
+  /* iOS-style deceleration. */
+  --smooth: cubic-bezier(0.32, 0.72, 0, 1);
+  /* Slow start, slow finish: the sweep only settles at the very end. */
+  --sweep: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
-.intro .scan {
-  animation: scan 900ms ease-in-out 100ms both;
+.lens.enter {
+  animation: fade-in 180ms var(--smooth) both;
 }
 
-.intro .outline {
-  animation: fade-in 260ms ease-out both;
+.scan {
+  animation: scan 1100ms var(--sweep) 60ms both;
 }
 
-.intro .hatch {
-  animation: wipe 450ms ease-out var(--d, 0ms) both;
+.outline.enter {
+  animation: fade-in 180ms var(--smooth) both;
 }
 
-.intro .tag {
-  animation: pop 300ms cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms) both;
+.hatch.enter {
+  animation: fade-in 280ms var(--smooth) var(--d, 0ms) both;
 }
 
-.intro .arc {
-  animation: fade-in 320ms ease-out var(--d, 0ms) both;
+.hatch.enter > .tag,
+.tag.enter {
+  animation: rise 320ms var(--smooth) var(--d, 0ms) both;
 }
 
-.intro .card {
-  animation: card-in 300ms cubic-bezier(0.2, 0.8, 0.2, 1) 150ms both;
+.arc.enter {
+  animation: fade-in 220ms var(--smooth) var(--d, 0ms) both;
+}
+
+.card.enter {
+  animation: card-in 420ms var(--spring) 80ms both;
 }
 
 @keyframes fade-in {
@@ -37,21 +47,18 @@
   to { transform: translateX(var(--w)); }
 }
 
-@keyframes wipe {
-  from { clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0); }
-}
-
-@keyframes pop {
-  from { opacity: 0; scale: 0.9; }
-}
-
-@keyframes card-in {
+@keyframes rise {
   from { opacity: 0; translate: 0 4px; }
 }
 
+@keyframes card-in {
+  from { opacity: 0; translate: 0 8px; scale: 0.98; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .intro * {
+  .enter,
+  .enter > .tag,
+  .scan {
     animation: none !important;
   }
 }

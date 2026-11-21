@@ -45,7 +45,7 @@
 
 .hatch {
   pointer-events: auto;
-  cursor: copy;
+  cursor: pointer;
 }
 
 .hatch.pad {
@@ -118,7 +118,7 @@
   gap: 20px;
   padding: 5px 8px;
   border-radius: 6px;
-  cursor: copy;
+  cursor: pointer;
 }
 
 .row:hover,
@@ -211,7 +211,7 @@
 
 .hit {
   pointer-events: auto;
-  cursor: copy;
+  cursor: pointer;
 }
 
 .tag-tl { transform: translate(calc(-100% - 4px), calc(-100% - 4px)); }
@@ -235,7 +235,39 @@
   top: 0;
   bottom: 0;
   left: 0;
-  width: 120px;
-  background: linear-gradient(90deg, transparent, rgb(120 190 255 / 0.18), transparent);
-  transform: translateX(-120px);
+  width: 320px;
+  background: linear-gradient(90deg, transparent, rgb(120 190 255 / 0.12), transparent);
+  transform: translateX(-320px);
+}
+
+/* ---------- light backgrounds ---------- */
+
+.light .lens {
+  backdrop-filter: none;
+  background: rgb(30 144 255 / 0.06);
+}
+
+.light .scan {
+  background: linear-gradient(90deg, transparent, rgb(30 144 255 / 0.1), transparent);
+}
+
+.light .card {
+  color: #111;
+  background: #fff;
+  border-color: #e6e6e6;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.12);
+}
+
+.light .card-title,
+.light .row .label {
+  color: #777;
+}
+
+.light .row:hover,
+.light .row:focus-visible {
+  background: #f2f2f2;
+}
+
+.light .swatch {
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.15);
 }

@@ -8,7 +8,7 @@
   const DRAG_THRESHOLD = 4;
   const MAX_COLORS = 8;
   const MAX_COLOR_SCAN = 2000;
-  const SCAN_WIDTH = 120;
+  const SCAN_WIDTH = 320;
   const SKIP = new Set([
     "HTML", "HEAD", "BODY", "SCRIPT", "STYLE", "LINK", "META", "NOSCRIPT", "BR",
   ]);
@@ -31,6 +31,9 @@
   let rafId = 0;
   let toastTimer = 0;
   let staggerIndex = 0;
+  // Keys of what is already on screen, so each item animates in only once.
+  let shown = new Set();
+  let nextShown = new Set();
 
   // ---------- lifecycle ----------
 
@@ -76,6 +79,7 @@
     host.remove();
     host = layer = hoverLayer = results = toast = hovered = down = null;
     selected = [];
+    shown = new Set();
   }
 
   function onKey(e) {
@@ -101,7 +105,7 @@
     const b = hovered.getBoundingClientRect();
     hoverLayer.append(place(el("div", "hover"), b));
     // With a selection on screen, a hover tag would collide with its labels.
-    if (!selected.length) hoverLayer.append(sizeTag(b));
+    if (!selected.length) hoverLayer.append(sizeTag(b, false));
   }
 
   // ---------- click and drag ----------
@@ -109,6 +113,7 @@
   function onDown(e) {
     if (e.button !== 0) return;
     e.preventDefault();
+    shown = new Set(); // a new selection animates in fresh
     down = { x: e.clientX, y: e.clientY, dragging: false, candidates: null };
     window.addEventListener("mousemove", onDrag);
     window.addEventListener("mouseup", onUp);
@@ -174,17 +179,17 @@
     rafId = requestAnimationFrame(() => render());
   }
 
-  // intro: play the entrance animation. Only on click or release,
-  // never on drag or scroll, so it doesn't replay every frame.
-  function render(selRect, intro = false) {
+  // sweep: play the scan line. Only on click or release.
+  function render(selRect, sweep = false) {
     if (!results) return;
     results.textContent = "";
-    results.classList.toggle("intro", intro);
     staggerIndex = 0;
+    nextShown = new Set();
     selected = selected.filter((node) => node.isConnected);
+    if (selected[0]) results.classList.toggle("light", isLightBehind(selected[0]));
 
     const lensRect = selRect || (selected.length ? unionRect(selected) : null);
-    if (lensRect) drawLens(lensRect, intro);
+    if (lensRect) drawLens(lensRect, sweep);
     if (selRect) results.append(place(el("div", "sel"), selRect));
 
     if (selected.length === 1) {
@@ -193,7 +198,7 @@
       for (const node of selected) {
         const b = node.getBoundingClientRect();
         const cs = getComputedStyle(node);
-        results.append(place(el("div", "outline"), b));
+        results.append(enter(place(el("div", "outline"), b), keyOf("outline", b)));
         drawPadding(b, cs);
         drawRadius(b, cs);
         results.append(sizeTag(b));
@@ -202,10 +207,11 @@
       if (!selRect) drawMultiCard();
     }
     drawHover();
+    shown = nextShown;
   }
 
-  // The blueprint area: tinted, desaturated, with a grid.
-  function drawLens(r, intro) {
+  // The blueprint area: tinted and desaturated.
+  function drawLens(r, sweep) {
     const width = r.right - r.left;
     const lens = place(el("div", "lens"), {
       left: r.left,
@@ -213,17 +219,17 @@
       width,
       height: r.bottom - r.top,
     });
-    if (intro) {
+    if (sweep) {
       lens.style.setProperty("--w", `${width + SCAN_WIDTH}px`);
       lens.append(el("div", "scan"));
     }
-    results.append(lens);
+    results.append(enter(lens, "lens"));
   }
 
   function renderSingle(node, withCard) {
     const b = node.getBoundingClientRect();
     const cs = getComputedStyle(node);
-    results.append(place(el("div", "outline"), b));
+    results.append(enter(place(el("div", "outline"), b), keyOf("outline", b)));
     drawPadding(b, cs);
     drawChildGaps(node, cs);
     drawRadius(b, cs);
@@ -301,7 +307,7 @@
     if (size < 1 || rect.width <= 0 || rect.height <= 0) return;
     const value = `${fmt(size)}px`;
     const label = el("div", `tag ${kind}-tag`, fmt(size));
-    const area = stagger(place(el("div", `hatch ${kind}`), rect));
+    const area = enter(place(el("div", `hatch ${kind}`), rect), keyOf(name, rect));
     area.append(label);
     area.addEventListener("mouseenter", () => (label.textContent = `${name} · ${value}`));
     area.addEventListener("mouseleave", () => (label.textContent = fmt(size)));
@@ -327,14 +333,13 @@
         height: r,
       });
       arc.style.setProperty("--r", `${r}px`);
-      results.append(stagger(arc));
+      results.append(enter(arc, keyOf(`arc-${name}`, b)));
 
       if (uniform && name !== "br") return;
       const tag = el("div", `tag radius-tag hit tag-${name}`, `r ${fmt(r)}`);
       tag.addEventListener("click", () => copy(`${fmt(r)}px`));
-      results.append(
-        stagger(place(tag, { left: isLeft ? b.left : b.right, top: isTop ? b.top : b.bottom }))
-      );
+      const at = { left: isLeft ? b.left : b.right, top: isTop ? b.top : b.bottom };
+      results.append(enter(place(tag, at), keyOf(`radius-${name}`, b)));
     });
   }
 
@@ -412,7 +417,7 @@
       card.append(button);
     }
     if (more > 0) card.append(el("div", "more", `+${more} more`));
-    results.append(card);
+    results.append(enter(card, "card"));
 
     // Below the anchor, or above if there is no room. Kept inside the viewport.
     const w = card.offsetWidth;
@@ -459,16 +464,29 @@
     return node;
   }
 
-  // Each element starts its intro a little after the previous one (max 400ms).
-  function stagger(node) {
-    node.style.setProperty("--d", `${Math.min(staggerIndex++ * 25, 400)}ms`);
+  // Marks an element to animate in, only the first time it appears,
+  // each a little after the previous one (max 250ms).
+  function enter(node, key) {
+    nextShown.add(key);
+    if (!shown.has(key)) {
+      node.classList.add("enter");
+      node.style.setProperty("--d", `${Math.min(staggerIndex++ * 15, 250)}ms`);
+    }
     return node;
   }
 
-  function sizeTag(b) {
+  // Page position, so scrolling the window doesn't count as new.
+  function keyOf(kind, r) {
+    return [kind, r.left + scrollX, r.top + scrollY, r.width, r.height]
+      .map((v) => (typeof v === "number" ? Math.round(v) : v))
+      .join(":");
+  }
+
+  function sizeTag(b, animate = true) {
     const tag = el("div", "tag float", `${fmt(b.width)} × ${fmt(b.height)}`);
     const top = b.bottom + 22 > innerHeight ? b.bottom - 20 : b.bottom + 4;
-    return stagger(place(tag, { left: b.left + b.width / 2, top }));
+    place(tag, { left: b.left + b.width / 2, top });
+    return animate ? enter(tag, keyOf("size", b)) : tag;
   }
 
   function elementAt(x, y) {
@@ -558,6 +576,23 @@
         .join("")
         .toUpperCase();
     return c.a < 1 ? `${hex} ${Math.round(c.a * 100)}%` : hex;
+  }
+
+  // Light or dark: the first solid background behind the element. Pages default to white.
+  function isLightBehind(node) {
+    for (let n = node; n; n = n.parentElement) {
+      const bg = getComputedStyle(n).backgroundColor;
+      if (alphaOf(bg) > 0.5) return luminance(bg) > 0.5;
+    }
+    return true;
+  }
+
+  function luminance(color) {
+    const n = normalize(color);
+    const [r, g, b] = n.startsWith("#")
+      ? [1, 3, 5].map((i) => parseInt(n.slice(i, i + 2), 16))
+      : (n.match(/[\d.]+/g) || [0, 0, 0]).map(Number);
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
   }
 
   window.__gapray = { toggle };
