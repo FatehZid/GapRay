@@ -1,0 +1,57 @@
+/* GapRay motion. Plays only when .intro is set (click or release).
+   Animates transform, scale, opacity and clip-path only. */
+
+.intro .lens {
+  animation: fade-in 320ms ease-out both;
+}
+
+.intro .scan {
+  animation: scan 900ms ease-in-out 100ms both;
+}
+
+.intro .outline {
+  animation: fade-in 260ms ease-out both;
+}
+
+.intro .hatch {
+  animation: wipe 450ms ease-out var(--d, 0ms) both;
+}
+
+.intro .tag {
+  animation: pop 300ms cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms) both;
+}
+
+.intro .arc {
+  animation: fade-in 320ms ease-out var(--d, 0ms) both;
+}
+
+.intro .card {
+  animation: card-in 300ms cubic-bezier(0.2, 0.8, 0.2, 1) 150ms both;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes scan {
+  to { transform: translateX(var(--w)); }
+}
+
+@keyframes wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
+}
+
+@keyframes pop {
+  from { opacity: 0; scale: 0.9; }
+}
+
+@keyframes card-in {
+  from { opacity: 0; translate: 0 4px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro * {
+    animation: none !important;
+  }
+}

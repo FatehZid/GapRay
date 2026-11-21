@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "GapRay",
+  "version": "0.1.0",
+  "description": "X-ray any webpage like Figma redlines. Spacing, sizes, padding, gaps, radius and type. 100% local.",
+  "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "GapRay (Alt+Shift+M)"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": { "default": "Alt+Shift+M" },
+      "description": "Toggle GapRay"
+    }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["overlay.css", "motion.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
