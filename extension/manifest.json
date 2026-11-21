@@ -8,12 +8,17 @@
     "service_worker": "background.js"
   },
   "action": {
-    "default_title": "GapRay (Cmd/Ctrl+Shift+X)"
+    "default_title": "GapRay",
+    "default_popup": "popup.html"
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
   },
   "commands": {
-    "_execute_action": {
+    "toggle-gapray": {
       "suggested_key": { "default": "Ctrl+Shift+X", "mac": "Command+Shift+X" },
-      "description": "Toggle GapRay"
+      "description": "Turn GapRay on or off"
     }
   },
   "web_accessible_resources": [
