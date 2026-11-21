@@ -10,7 +10,7 @@
 
 ## V0 · MVP (current)
 
-- **Toggle:** toolbar icon or `Alt+Shift+M` turns it on, `Esc` exits.
+- **Toggle:** toolbar icon or `Cmd/Ctrl+Shift+X` turns it on, `Esc` exits.
 - **Drag:** x-ray an area to show sizes, hatched padding, gaps between items and radius.
 - **Click:** one clean card for an element: font, size, weight, line height, color, dimensions, padding, radius.
 - **Permissions:** `activeTab` and `scripting` only.

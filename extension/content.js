@@ -31,6 +31,7 @@
   let rafId = 0;
   let toastTimer = 0;
   let staggerIndex = 0;
+  let alt = false; // Alt (Option) held: measure mode
   // Keys of what is already on screen, so each item animates in only once.
   let shown = new Set();
   let nextShown = new Set();
@@ -58,18 +59,22 @@
     hoverLayer = el("div", "hover-layer");
     results = el("div", "results");
     toast = el("div", "toast");
-    root.append(...styles, layer, hoverLayer, results, toast);
+    root.append(...styles, layer, results, hoverLayer, toast);
     document.documentElement.append(host);
 
     layer.addEventListener("mousedown", onDown);
     layer.addEventListener("mousemove", onHover);
     window.addEventListener("keydown", onKey, true);
+    window.addEventListener("keyup", onKeyUp, true);
+    window.addEventListener("blur", onBlur);
     window.addEventListener("scroll", scheduleRender, true);
     window.addEventListener("resize", scheduleRender);
   }
 
   function stop() {
     window.removeEventListener("keydown", onKey, true);
+    window.removeEventListener("keyup", onKeyUp, true);
+    window.removeEventListener("blur", onBlur);
     window.removeEventListener("scroll", scheduleRender, true);
     window.removeEventListener("resize", scheduleRender);
     window.removeEventListener("mousemove", onDrag);
@@ -80,9 +85,30 @@
     host = layer = hoverLayer = results = toast = hovered = down = null;
     selected = [];
     shown = new Set();
+    alt = false;
+  }
+
+  // Measure mode on or off. Redraws only when it changes.
+  function setAlt(on) {
+    if (alt === on) return;
+    alt = on;
+    drawHover();
+  }
+
+  function onKeyUp(e) {
+    if (e.key === "Alt") setAlt(false);
+  }
+
+  // Alt released in another window never sends keyup here.
+  function onBlur() {
+    setAlt(false);
   }
 
   function onKey(e) {
+    if (e.key === "Alt") {
+      setAlt(true);
+      return;
+    }
     if (e.key !== "Escape") return;
     e.preventDefault();
     e.stopPropagation();
@@ -99,9 +125,84 @@
     drawHover();
   }
 
+  // Figma-style distances from the selected element (a) to the hovered one (b).
+  function drawMeasure(a, b) {
+    hoverLayer.append(place(el("div", "m-box"), b));
+    const inside = (o, i) =>
+      i.left >= o.left && i.right <= o.right && i.top >= o.top && i.bottom <= o.bottom;
+
+    // One inside the other: four lines to the outer box's inner edges.
+    if (inside(b, a) || inside(a, b)) {
+      const [o, i] = inside(b, a) ? [b, a] : [a, b];
+      const cx = i.left + i.width / 2;
+      const cy = i.top + i.height / 2;
+      mLine(cx, o.top, cx, i.top);
+      mLine(cx, i.bottom, cx, o.bottom);
+      mLine(o.left, cy, i.left, cy);
+      mLine(i.right, cy, o.right, cy);
+      return;
+    }
+
+    // Apart: one line per axis, in the middle of the overlap or from a's center.
+    const oTop = Math.max(a.top, b.top);
+    const oBottom = Math.min(a.bottom, b.bottom);
+    const y = oBottom > oTop ? (oTop + oBottom) / 2 : a.top + a.height / 2;
+    if (b.left >= a.right) {
+      mLine(a.right, y, b.left, y);
+      guide(b.left, y, b);
+    } else if (a.left >= b.right) {
+      mLine(b.right, y, a.left, y);
+      guide(b.right, y, b);
+    }
+
+    const oLeft = Math.max(a.left, b.left);
+    const oRight = Math.min(a.right, b.right);
+    const x = oRight > oLeft ? (oLeft + oRight) / 2 : a.left + a.width / 2;
+    if (b.top >= a.bottom) {
+      mLine(x, a.bottom, x, b.top);
+      guide(x, b.top, b);
+    } else if (a.top >= b.bottom) {
+      mLine(x, b.bottom, x, a.top);
+      guide(x, b.bottom, b);
+    }
+  }
+
+  // Dashed guide from a line's end to the hovered box, when the line misses it.
+  function guide(x, y, b) {
+    if (y < b.top) mLine(x, y, x, b.top, true);
+    else if (y > b.bottom) mLine(x, b.bottom, x, y, true);
+    else if (x < b.left) mLine(x, y, b.left, y, true);
+    else if (x > b.right) mLine(b.right, y, x, y, true);
+  }
+
+  // A straight line with its length in a tag. Guides get no tag.
+  function mLine(x1, y1, x2, y2, dashed = false) {
+    const len = Math.abs(x2 - x1) + Math.abs(y2 - y1);
+    if (len < 1) return;
+    const flat = y1 === y2;
+    const kind = dashed ? `m-guide ${flat ? "h" : "v"}` : "m-line";
+    hoverLayer.append(
+      place(el("div", kind), {
+        left: Math.min(x1, x2),
+        top: Math.min(y1, y2),
+        width: flat ? len : 1,
+        height: flat ? 1 : len,
+      })
+    );
+    if (dashed) return;
+    const tag = el("div", "tag m-tag", fmt(len));
+    hoverLayer.append(place(tag, { left: (x1 + x2) / 2, top: (y1 + y2) / 2 }));
+  }
+
   function drawHover() {
     hoverLayer.textContent = "";
-    if (!hovered || !hovered.isConnected || selected.includes(hovered)) return;
+    if (!hovered || !hovered.isConnected) return;
+    const anchor = selected.length === 1 ? selected[0] : null;
+    if (alt && anchor && hovered !== anchor) {
+      drawMeasure(anchor.getBoundingClientRect(), hovered.getBoundingClientRect());
+      return;
+    }
+    if (selected.includes(hovered)) return;
     const b = hovered.getBoundingClientRect();
     hoverLayer.append(place(el("div", "hover"), b));
     // With a selection on screen, a hover tag would collide with its labels.

@@ -1,6 +1,7 @@
 :host {
   --ray: #1e90ff;
   --gap: #ff3b6b;
+  --measure: #f24822;
   --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
   --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -270,4 +271,35 @@
 
 .light .swatch {
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.15);
+}
+
+/* ---------- measure (hold Alt) ---------- */
+
+.m-box,
+.m-line,
+.m-guide,
+.m-tag {
+  position: fixed;
+  box-sizing: border-box;
+}
+
+.m-box {
+  border: 1px solid var(--measure);
+}
+
+.m-line {
+  background: var(--measure);
+}
+
+.m-guide.h {
+  border-top: 1px dashed var(--measure);
+}
+
+.m-guide.v {
+  border-left: 1px dashed var(--measure);
+}
+
+.m-tag {
+  background: var(--measure);
+  transform: translate(-50%, -50%);
 }

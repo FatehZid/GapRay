@@ -1,4 +1,4 @@
-// Toolbar click and Alt+Shift+M both fire action.onClicked.
+// Toolbar click and Cmd/Ctrl+Shift+X both fire action.onClicked.
 // content.js toggles itself if it is already on the page.
 chrome.action.onClicked.addListener(async (tab) => {
   try {
