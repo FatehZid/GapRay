@@ -73,7 +73,7 @@ See [CHANGELOG.md](CHANGELOG.md). The core inspector stays free and open source 
 
 Issues and pull requests are welcome. The code is plain JavaScript (Manifest V3), with no build step and no dependencies. Edit the files in `extension/`, then reload GapRay in `chrome://extensions`.
 
-Please open an issue before a big change, so we can agree on it first.
+Please open an issue before a big change, so we can agree on it first. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
