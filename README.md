@@ -65,9 +65,9 @@ The overlay never changes the page, and the page never sees your data.
 - Not a page editor. It reads the page, it never changes it.
 - Not a replacement for DevTools. It is the designer's view of the same numbers.
 
-## Roadmap
+## Changelog
 
-See [ROADMAP.md](ROADMAP.md). The core inspector stays free and open source forever.
+See [CHANGELOG.md](CHANGELOG.md). The core inspector stays free and open source forever.
 
 ## Contributing
 
