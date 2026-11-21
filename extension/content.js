@@ -134,7 +134,7 @@
     drawHover();
   }
 
-  // Figma-style distances from the selected element (a) to the hovered one (b).
+  // Distances from the selected element (a) to the hovered one (b).
   function drawMeasure(a, b) {
     hoverLayer.append(place(el("div", "m-box"), b));
     const inside = (o, i) =>

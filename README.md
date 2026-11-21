@@ -5,7 +5,7 @@
 <h1 align="center">GapRay</h1>
 
 <p align="center">
-  X-ray any webpage like Figma redlines.<br />
+  X-ray any webpage's spacing and sizes.<br />
   Sizes, padding, gaps, radius and type. Free, open source, 100% local.
 </p>
 
@@ -15,14 +15,14 @@
 
 ## Why
 
-Designers check built pages against their designs every day. DevTools has the numbers, but it is built for developers: boxes inside panels inside tabs. GapRay shows the same numbers the way Figma does, right on the page.
+Designers check built pages against their designs every day. DevTools has the numbers, but it is built for developers: boxes inside panels inside tabs. GapRay shows the same numbers right on the page.
 
 ## Features
 
 - **Hover** any element to see its outline and size.
 - **Click** for one clean card: size, font, weight, line height, color, padding, radius.
 - **Drag** over an area to x-ray it live: sizes, hatched padding, gaps between items, radius, and every color used.
-- **Hold Alt (Option)** and hover to measure the distance between two elements, like in Figma.
+- **Hold Alt (Option)** and hover to measure the distance between two elements.
 - **Click any value** to copy it.
 - Works on light and dark pages, stays correct when you scroll or resize.
 - Numbers come from real geometry and computed styles, checked against Chrome DevTools.
