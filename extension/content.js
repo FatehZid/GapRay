@@ -422,14 +422,14 @@
       const overlapRight = Math.min(a.right, b.right);
 
       if (overlapBottom > overlapTop && b.left - a.right >= 1) {
-        hatch("gap", "Gap", b.left - a.right, {
+        hatch("gap", "Distance", b.left - a.right, {
           left: a.right,
           top: box ? box.top : overlapTop,
           width: b.left - a.right,
           height: box ? box.height : overlapBottom - overlapTop,
         });
       } else if (b.top - a.bottom >= 1) {
-        hatch("gap", "Gap", b.top - a.bottom, {
+        hatch("gap", "Distance", b.top - a.bottom, {
           left: box ? box.left : overlapLeft,
           top: a.bottom,
           width: box ? box.width : overlapRight - overlapLeft,
