@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "GapRay",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "X-ray any webpage's spacing and sizes: padding, gaps, radius and type. 100% local.",
   "permissions": ["activeTab", "scripting"],
   "icons": {
