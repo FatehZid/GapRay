@@ -29,7 +29,9 @@ Designers check built pages against their designs every day. DevTools has the nu
 
 ## Install
 
-GapRay is not on the Chrome Web Store yet. To install it from this repo:
+**[Install GapRay from the Chrome Web Store](https://chromewebstore.google.com/detail/gapray/afidhajdnifmbhoffkjpmkkbmnodhlnm)**
+
+Or load it from this repo (for contributors):
 
 1. Download this repo (Code → Download ZIP) and unzip it.
 2. Open `chrome://extensions` and turn on **Developer mode**.
