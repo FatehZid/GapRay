@@ -96,7 +96,12 @@
       d.vy += (-STIFFNESS * d.y - DAMPING * d.vy) * f;
       d.x += d.vx * f;
       d.y += d.vy * f;
-      if (Math.abs(d.x) > 0.05 || Math.abs(d.y) > 0.05 || Math.abs(d.vx) > 0.05 || Math.abs(d.vy) > 0.05) {
+      if (
+        Math.abs(d.x) > 0.05 ||
+        Math.abs(d.y) > 0.05 ||
+        Math.abs(d.vx) > 0.05 ||
+        Math.abs(d.vy) > 0.05
+      ) {
         moving = true;
       } else {
         d.x = d.y = d.vx = d.vy = 0;
@@ -132,7 +137,11 @@
           const dist = Math.hypot(dx, dy);
           if (dist === 0 || dist > PROXIMITY) continue;
           const fall = 1 - dist / PROXIMITY;
-          kick(d, ((dx / dist) * PUSH + vx * FLICK) * fall, ((dy / dist) * PUSH + vy * FLICK) * fall);
+          kick(
+            d,
+            ((dx / dist) * PUSH + vx * FLICK) * fall,
+            ((dy / dist) * PUSH + vy * FLICK) * fall,
+          );
         }
       }
     }
